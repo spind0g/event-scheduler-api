@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use Illuminate\Http\Request;
+use App\Http\Helpers\EventHelper;
+use App\Http\Requests\StoreEventRequest;
+use App\Http\Resources\EventResource;
 
 class EventController extends Controller
 {
@@ -14,51 +16,29 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        $events = EventResource::collection(Event::all());
+
+        return response()->json(compact('events'), 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreEventRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEventRequest $request)
     {
-        //
-    }
+        $event = Event::create([
+            'name' => $request->name,
+            'starting_date' => $request->starting_date,
+            'ending_date' => $request->ending_date,
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Event $event)
-    {
-        //
-    }
+        $event = new EventResource($event);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Event $event)
-    {
-        //
-    }
+        EventHelper::saveSelectedDays($event->id, $request->selected_days);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Event $event)
-    {
-        //
+        return response()->json(compact('event'), 201);
     }
 }
