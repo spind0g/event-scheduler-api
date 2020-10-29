@@ -25,8 +25,8 @@ class StoreEventRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'starting_date' => ['required'],
-            'ending_date' => ['required'],
+            'starting_date' => ['required', 'date_format:Y-m-d'],
+            'ending_date' => ['required', 'date_format:Y-m-d'],
             'selected_days' => ['required'],
         ];
     }
