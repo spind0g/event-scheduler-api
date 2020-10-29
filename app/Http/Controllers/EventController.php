@@ -31,8 +31,8 @@ class EventController extends Controller
     {
         $event = Event::create([
             'name' => $request->name,
-            'starting_date' => $request->starting_date,
-            'ending_date' => $request->ending_date,
+            'starting_date' => $request->starting_date < $request->ending_date ? $request->starting_date : $request->ending_date,
+            'ending_date' => $request->ending_date > $request->starting_date ? $request->ending_date : $request->starting_date,
         ]);
 
         $event = new EventResource($event);
