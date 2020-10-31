@@ -17,7 +17,7 @@ https://aa-event-scheduler-api.herokuapp.com/
 2. Create a database named `event_scheduler`
 3. Run migrations
 ```
->php artisan migrate
+> php artisan migrate
 ```
 
 ### Development
